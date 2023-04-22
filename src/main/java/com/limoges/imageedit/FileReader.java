@@ -24,8 +24,14 @@ public class FileReader {
             fileChooser.getExtensionFilters().addAll(
                     new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
             );
+
             fileChooser.setTitle("Open Image File");
-            fileChooser.setInitialDirectory(new File(System.getProperty("user.home"),"Pictures"));
+            File initialDirectory = new File(System.getProperty("user.home"),"Pictures");
+
+            if (initialDirectory.exists()){
+                fileChooser.setInitialDirectory(initialDirectory);
+            }
+
             File selectedFile = fileChooser.showOpenDialog(stage);
             if (selectedFile != null) {
                 // Load the selected image into an ImageView object

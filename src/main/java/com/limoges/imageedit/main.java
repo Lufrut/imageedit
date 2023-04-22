@@ -10,16 +10,23 @@ import java.io.IOException;
 
 public class main extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws Exception {
         //FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         //Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        AuthRegistrationForm form = new AuthRegistrationForm();
+        form.start(stage);
+        /*
         Button button = new Button("Select File");
         FileReader.fileReader(stage,button);
 
         VBox vBox = new VBox(button);
         Scene scene = new Scene(vBox, 960, 600);
         stage.setTitle("Hello!");
+
+
         stage.setScene(scene);
+        */
+
         stage.show();
     }
 
