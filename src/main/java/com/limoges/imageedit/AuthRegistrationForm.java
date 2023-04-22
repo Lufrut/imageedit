@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class AuthRegistrationForm extends Application {
@@ -38,11 +39,13 @@ public class AuthRegistrationForm extends Application {
             String password = passwordField.getText();
             if (authenticate(username, password)) {
                 // Show success message
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Authentication");
-                alert.setHeaderText(null);
-                alert.setContentText("Authentication successful!");
-                alert.showAndWait();
+                Button button = new Button("Select File");
+                FileReader.fileReader(primaryStage,button);
+
+                VBox vBox = new VBox(button);
+                Scene scene = new Scene(vBox, 960, 600);
+                primaryStage.setTitle("Hello!");
+                primaryStage.setScene(scene);
             } else {
                 // Show error message
                 Alert alert = new Alert(Alert.AlertType.ERROR);
