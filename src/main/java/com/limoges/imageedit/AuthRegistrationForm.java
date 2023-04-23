@@ -1,4 +1,6 @@
 package com.limoges.imageedit;
+import com.limoges.imageedit.models.DataBase;
+import com.limoges.imageedit.models.User;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -6,6 +8,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class AuthRegistrationForm extends Application {
 
@@ -35,24 +40,31 @@ public class AuthRegistrationForm extends Application {
         Button authButton = new Button("Authenticate");
         authButton.setOnAction(event -> {
             // Authenticate user with username and password
+            Connection conn = DataBase.connectDb();
             String username = usernameField.getText();
             String password = passwordField.getText();
-            if (authenticate(username, password)) {
-                // Show success message
-                Button button = new Button("Select File");
-                FileReader.fileReader(primaryStage,button);
+            try {
+                if (authenticate(username, password,conn)) {
+                    // Show success message
+                    Button button = new Button("Select File");
+                    FileReader.fileReader(primaryStage,button);
 
-                VBox vBox = new VBox(button);
-                Scene scene = new Scene(vBox, 960, 600);
-                primaryStage.setTitle("Hello!");
-                primaryStage.setScene(scene);
-            } else {
-                // Show error message
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Authentication");
-                alert.setHeaderText(null);
-                alert.setContentText("Invalid username or password.");
-                alert.showAndWait();
+                    VBox vBox = new VBox(button);
+                    Scene scene = new Scene(vBox, 960, 600);
+                    primaryStage.setTitle("Hello!");
+                    primaryStage.setScene(scene);
+                } else {
+                    // Show error message
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Authentication");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Invalid username or password.");
+                    alert.showAndWait();
+                }
+                assert conn !=null;
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
         });
         authPane.add(authButton, 0, 3, 2, 1);
@@ -81,22 +93,29 @@ public class AuthRegistrationForm extends Application {
         Button regButton = new Button("Register");
         regButton.setOnAction(event -> {
             // Register new user with username and password
+            Connection conn = DataBase.connectDb();
             String newUsername = newUsernameField.getText();
             String newPassword = newPasswordField.getText();
-            if (register(newUsername, newPassword)) {
-                // Show success message
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Registration");
-                alert.setHeaderText(null);
-                alert.setContentText("Registration successful!");
-                alert.showAndWait();
-            } else {
-                // Show error message
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Registration");
-                alert.setHeaderText(null);
-                alert.setContentText("Username already exists.");
-                alert.showAndWait();
+            try {
+                if (register(newUsername, newPassword,conn)) {
+                    // Show success message
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Registration");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Registration successful!");
+                    alert.showAndWait();
+                } else {
+                    // Show error message
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Registration");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Username already exists.");
+                    alert.showAndWait();
+                }
+                assert conn != null;
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
         });
         regPane.add(regButton, 0, 3, 2, 1);
@@ -115,17 +134,19 @@ public class AuthRegistrationForm extends Application {
         primaryStage.show();
     }
 
-    private boolean authenticate(String username, String password) {
-        // Perform authentication logic here
-        // Return true if authentication successful, false otherwise
-        // For this example, we will simply authenticate if the username is "user" and the password is "pass"
-        return username.equals("user") && password.equals("pass");
+    private boolean authenticate(String username, String password, Connection conn) throws SQLException {
+
+        User user = User.getUserByUsername(conn,username);
+        if(user != null ) {
+            return username.equals(user.getUsername()) && password.equals(user.getPassword());
+        } else return false;
     }
 
-    private boolean register(String username, String password) {
-        // Perform registration logic here
-        // Return true if registration successful, false otherwise
-        // For this example, we will simply allow registration if the username does not already exist
-        return !username.equals("user");
+    private boolean register(String username, String password, Connection conn) throws SQLException {
+        if (User.getUserByUsername(conn,username)== null) {
+            User user = new User(username, password);
+            user.save(conn);
+            return true;
+        } else return  false;
     }
 }
