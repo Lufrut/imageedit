@@ -3,16 +3,12 @@ package com.limoges.imageedit;
 import com.limoges.imageedit.models.DataBase;
 import com.limoges.imageedit.models.SetUpDatabase;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class main extends Application {
+public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         //FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));

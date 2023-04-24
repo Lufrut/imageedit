@@ -47,12 +47,15 @@ public class AuthRegistrationForm extends Application {
                 if (authenticate(username, password,conn)) {
                     // Show success message
                     Button button = new Button("Select File");
-                    FileReader.fileReader(primaryStage,button);
+                    FileReader.fileReader(primaryStage,button,username);
 
+                    /*
                     VBox vBox = new VBox(button);
                     Scene scene = new Scene(vBox, 960, 600);
                     primaryStage.setTitle("Hello!");
                     primaryStage.setScene(scene);
+
+                     */
                 } else {
                     // Show error message
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -64,6 +67,8 @@ public class AuthRegistrationForm extends Application {
                 assert conn !=null;
                 conn.close();
             } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         });
