@@ -45,17 +45,10 @@ public class AuthRegistrationForm extends Application {
             String password = passwordField.getText();
             try {
                 if (authenticate(username, password,conn)) {
-                    // Show success message
+                    // here we go to other scene
                     Button button = new Button("Select File");
                     FileReader.fileReader(primaryStage,button,username);
 
-                    /*
-                    VBox vBox = new VBox(button);
-                    Scene scene = new Scene(vBox, 960, 600);
-                    primaryStage.setTitle("Hello!");
-                    primaryStage.setScene(scene);
-
-                     */
                 } else {
                     // Show error message
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -140,7 +133,6 @@ public class AuthRegistrationForm extends Application {
     }
 
     private boolean authenticate(String username, String password, Connection conn) throws SQLException {
-
         User user = User.getUserByUsername(conn,username);
         if(user != null ) {
             return username.equals(user.getUsername()) && password.equals(user.getPassword());

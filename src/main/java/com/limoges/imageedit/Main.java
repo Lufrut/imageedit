@@ -11,8 +11,7 @@ import java.sql.SQLException;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        //FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        //Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        // here we setup database, it's always throw exception because it create table each time
         try {
             Connection conn = DataBase.connectDb();
             SetUpDatabase.setUp(conn);
@@ -23,18 +22,6 @@ public class Main extends Application {
         }
         AuthRegistrationForm form = new AuthRegistrationForm();
         form.start(stage);
-        /*
-        Button button = new Button("Select File");
-        FileReader.fileReader(stage,button);
-
-        VBox vBox = new VBox(button);
-        Scene scene = new Scene(vBox, 960, 600);
-        stage.setTitle("Hello!");
-
-
-        stage.setScene(scene);
-        */
-
         stage.show();
     }
 

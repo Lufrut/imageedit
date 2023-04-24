@@ -43,7 +43,6 @@ public class FileReaderController{
             if (!Files.exists(userDir)) {
                 Files.createDirectory(userDir);
             }
-
             // copy the selected file to the user directory
             Path targetPath = userDir.resolve(selectedFile.getName());
             Files.copy(selectedFile.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);

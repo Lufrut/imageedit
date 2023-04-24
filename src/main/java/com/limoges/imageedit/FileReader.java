@@ -71,37 +71,7 @@ public class FileReader {
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-            /*
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
-            );
 
-            fileChooser.setTitle("Open Image File");
-            File initialDirectory = new File(System.getProperty("user.home"),"Pictures");
-
-            if (initialDirectory.exists()){
-                fileChooser.setInitialDirectory(initialDirectory);
-            }
-
-            File selectedFile = fileChooser.showOpenDialog(stage);
-            if (selectedFile != null) {
-                // Load the selected image into an ImageView object
-                Image image = new Image(selectedFile.toURI().toString());
-                ImageView imageView = new ImageView(image);
-
-                // Create a StackPane layout and add the ImageView to it
-                StackPane root = new StackPane();
-                root.getChildren().add(imageView);
-
-                // Create a Scene and set the StackPane layout as the root
-                Scene scene = new Scene(root, 960, 600);
-
-                // Set the Scene on the Stage
-                stage.setScene(scene);
-            }
-
-             */
         });
 
 
